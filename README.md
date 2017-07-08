@@ -12,12 +12,12 @@ $ go get github.com/Hu13er/telegrus
 package main
 
 import (
-	"github.com/sirupsen/logrus"
-	"github.com/Hu13er/telegrus"
+    "github.com/sirupsen/logrus"
+    "github.com/Hu13er/telegrus"
 )
 
 func main() {
-	log := logrus.New()
+    log := logrus.New()
     
     var (
         botToken = ""      // Your Bot token
@@ -26,16 +26,16 @@ func main() {
 
     hooker := telegrus.NewHooker(botToken, chatID)
     hooker.SetMention(map[logrus.Level][]string{
-			logrus.WarnLevel:  []string{"Hu13er", "foobar"},
-			logrus.ErrorLevel: []string{"Hu13er"},
-			logrus.PanicLevel: []string{"Hu13er"},
+                    logrus.WarnLevel:  []string{"Hu13er", "foobar"},
+		    logrus.ErrorLevel: []string{"Hu13er"},
+                    logrus.PanicLevel: []string{"Hu13er"},
 		})
     log.Hooks.Add(hooker)
 
-	log.WithFields(logrus.Fields{
-		"name": "huber",
-		"age":  20,
-	}).Error("Hello world!")
+    log.WithFields(logrus.Fields{
+        "name": "huber",
+        "age":  20,
+    }).Error("Hello world!")
 }
 ```
 
