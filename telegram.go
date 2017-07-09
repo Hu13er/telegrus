@@ -31,10 +31,7 @@ func (tb *telegramBot) SendMsg(text string) {
 }
 
 func (tb *telegramBot) Cancel() {
-	select {
-	case tb.cancel <- struct{}{}:
-	default:
-	}
+	tb.cancel <- struct{}{}
 }
 
 func (tb *telegramBot) flush() {
