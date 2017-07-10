@@ -30,21 +30,23 @@ func NewHooker(botToken string, chatID int64) *hooker {
 	}
 }
 
-func (h *hooker) SetLevel(level logrus.Level) {
+func (h *hooker) SetLevel(level logrus.Level) *hooker {
 	h.mutex.Lock()
 	defer h.mutex.Unlock()
 
 	h.MinLevel = level
+	return h
 }
 
-func (h *hooker) SetMention(m map[logrus.Level][]string) {
+func (h *hooker) SetMention(m map[logrus.Level][]string) *hooker {
 	h.mutex.Lock()
 	defer h.mutex.Unlock()
 
 	h.mention = m
+	return h
 }
 
-func (h *hooker) MentionOn(level logrus.Level, users ...string) {
+func (h *hooker) MentionOn(level logrus.Level, users ...string) *hooker {
 	h.mutex.Lock()
 	defer h.mutex.Unlock()
 
@@ -52,13 +54,15 @@ func (h *hooker) MentionOn(level logrus.Level, users ...string) {
 		h.mention[level] = make([]string, 0)
 	}
 	h.mention[level] = append(h.mention[level], users...)
+	return h
 }
 
-func (h *hooker) SetFormatter(formatter logrus.Formatter) {
+func (h *hooker) SetFormatter(formatter logrus.Formatter) *hooker {
 	h.mutex.Lock()
 	defer h.mutex.Unlock()
 
 	h.formatter = formatter
+	return h
 }
 
 func (h *hooker) Fire(entry *logrus.Entry) error {
