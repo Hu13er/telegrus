@@ -25,20 +25,19 @@ func main() {
     )
 
     logrus.AddHook(
-		telegrus.NewHooker(botToken, chatID).
-			MentionOn(logrus.WarnLevel,
-				"Hu13er", "foobar").
-			MentionOn(logrus.ErrorLevel,
-				"Huberrr").
-			SetLevel(logrus.InfoLevel),
-	)
+        telegrus.NewHooker(botToken, chatID).
+            MentionOn(logrus.WarnLevel,
+                "Hu13er", "foobar").
+            MentionOn(logrus.ErrorLevel,
+                "Huberrr").
+            SetLevel(logrus.InfoLevel),
+    )
 
     logrus.Debugln("This is a DEBUG")
-	logrus.Infoln("This is an INFO")
-	logrus.Warnln("This is a WARN")
-	logrus.Errorln("This is an ERROR")
-	fmt.Scanln()
-
+    logrus.Infoln("This is an INFO")
+    logrus.Warnln("This is a WARN")
+    logrus.Errorln("This is an ERROR")
+    fmt.Scanln()
 }
 ```
 
