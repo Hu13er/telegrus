@@ -50,10 +50,16 @@ func (h *hooker) MentionOn(level logrus.Level, users ...string) *hooker {
 	h.mutex.Lock()
 	defer h.mutex.Unlock()
 
-	if _, ok := h.mention[level]; !ok {
-		h.mention[level] = make([]string, 0)
+	for _, lvl := range logrus.AllLevels {
+		if lvl > level {
+			continue
+		}
+
+		if _, ok := h.mention[lvl]; !ok {
+			h.mention[lvl] = make([]string, 0)
+		}
+		h.mention[lvl] = append(h.mention[lvl], users...)
 	}
-	h.mention[level] = append(h.mention[level], users...)
 	return h
 }
 
