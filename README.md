@@ -21,21 +21,24 @@ func main() {
     
     var (
         botToken = ""      // Your Bot token
-        chatID = uint32(0) // Your chatID
+        chatID = int64(0) // Your chatID
     )
 
-    hooker := telegrus.NewHooker(botToken, chatID)
-    hooker.SetMention(map[logrus.Level][]string{
-                    logrus.WarnLevel:  []string{"Hu13er", "foobar"},
-		    logrus.ErrorLevel: []string{"Hu13er"},
-                    logrus.PanicLevel: []string{"Hu13er"},
-		})
-    log.Hooks.Add(hooker)
+    logrus.AddHook(
+		telegrus.NewHooker(botToken, chatID).
+			MentionOn(logrus.WarnLevel,
+				"Hu13er", "foobar").
+			MentionOn(logrus.ErrorLevel,
+				"Huberrr").
+			SetLevel(logrus.InfoLevel),
+	)
 
-    log.WithFields(logrus.Fields{
-        "name": "huber",
-        "age":  20,
-    }).Error("Hello world!")
+    logrus.Debugln("This is a DEBUG")
+	logrus.Infoln("This is an INFO")
+	logrus.Warnln("This is a WARN")
+	logrus.Errorln("This is an ERROR")
+	fmt.Scanln()
+
 }
 ```
 
