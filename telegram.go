@@ -2,6 +2,7 @@ package telegrus
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -39,9 +40,17 @@ func (tb *telegramBot) flush() {
 		select {
 		case txt := <-tb.queue:
 			query := fmt.Sprintf(sendMessageRequest, tb.botToken, tb.chatID, txt)
-			http.Get(query)
+			resp, err := http.Get(query)
+			if err != nil {
+				log.Println("Error sending message:", err)
+				continue
+			}
+			if resp.StatusCode != http.StatusAccepted {
+				log.Println("Response status code:", resp.Status)
+				continue
+			}
 		case <-tb.cancel:
-			break
+			return
 		}
 	}
 }

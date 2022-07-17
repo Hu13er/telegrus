@@ -21,6 +21,8 @@ type hooker struct {
 	mutex sync.Mutex
 }
 
+var _ logrus.Hook = (*hooker)(nil)
+
 func NewHooker(botToken string, chatID int64) *hooker {
 	return &hooker{
 		bot:       newTelegramBot(botToken, chatID, 128),
