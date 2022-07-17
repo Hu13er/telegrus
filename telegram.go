@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 )
 
 const sendMessageRequest = "https://api.telegram.org/bot%s/sendMessage?chat_id=%d&text=%s"
@@ -39,13 +40,17 @@ func (tb *telegramBot) flush() {
 	for {
 		select {
 		case txt := <-tb.queue:
-			query := fmt.Sprintf(sendMessageRequest, tb.botToken, tb.chatID, txt)
+			query := fmt.Sprintf(sendMessageRequest,
+				url.QueryEscape(tb.botToken),
+				tb.chatID,
+				url.QueryEscape(txt))
+
 			resp, err := http.Get(query)
 			if err != nil {
 				log.Println("Error sending message:", err)
 				continue
 			}
-			if resp.StatusCode != http.StatusAccepted {
+			if resp.StatusCode != http.StatusOK {
 				log.Println("Response status code:", resp.Status)
 				continue
 			}
